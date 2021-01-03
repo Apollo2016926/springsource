@@ -1,0 +1,54 @@
+spring启动时源码分析[4.3.12.RELEASE]
+ new ClassPathXmlApplicationContext("beans.xml")
+       AbstractApplicationContext.refresh   刷新
+                                 .prepareRefresh 预处理->记录时间、容器的状态
+                                         .initPropertySources 初始化属性 通过扩展子类实现自定义属性的功能
+                                         .validateRequiredProperties  检验属性
+                                         . this.earlyApplicationEvents = new LinkedHashSet(); 保存早期的事件
+                                .this.obtainFreshBeanFactory() 获取beanFactory
+                                        .refreshBeanFactory  刷新beanFactory
+                                                new DefaultListableBeanFactory();创建beanFactory
+                                        .getBeanFactory  返回创建的beanFactory
+                                .prepareBeanFactory 为beanFactory设置类加载器、表达式解析器;添加ApplicationContextAwareProcessor、属性注册编辑器;忽略一些自动装配的接口;注册自动装配的接口;以及注册一些系统相关的配置和系统变量的组件
+                                .postProcessBeanFactory   子类通过重写该方法来为beanfactory进一步设设置
+-------以上是beanFactory的创建和准备工作
+                                .invokeBeanFactoryPostProcessors(beanFactory) beanFactory的后置处理器 beanFactory初始化后执行
+                                         获取BeanDefinitionRegistryPostProcessor
+                                         筛选并执行实现了PriorityOrdered接口的BeanDefinitionRegistryPostProcessor
+                                         筛选并执行实现了Ordered接口的BeanDefinitionRegistryPostProcessor
+                                         执行没有实现优先级和顺序接口的其他BeanDefinitionRegistryPostProcessor
+
+                                         获取BeanFactoryPostProcessor
+                                         筛选并执行实现了PriorityOrdered接口的BeanFactoryPostProcessor
+                                         筛选并执行实现了Ordered接口的BeanFactoryPostProcessor
+                                         执行没有实现优先级和顺序接口的其他BeanFactoryPostProcessor
+------以上是执行BeanFactoryPostProcessor
+                                .registerBeanPostProcessors  注册BeanPostProcessors 拦截bean的创建过程
+                                         获取BeanPostProcessor 后置处理器都实现了PriorityOrdered和Ordered
+                                         先注册实现了PriorityOrdered的beanPostProcessor
+                                         再注册实现了Ordered的beanPostProcessor
+                                         最后注册没有实现任何排序接口的的beanPostProcessor
+ ------以上是注册BeanPostProcessors
+                                .initMessageSource    初始化MessageSource组件 用于国际化、消息解析、消息绑定
+                                         获取BeanFactory
+                                         创建并获取MessageSource组件
+ ------以上是初始化MessageSource组件
+                                .initApplicationEventMulticaster 初始化事件派发器
+                                         获取BeanFactory
+                                         创建并获取ApplicationEventMulticaster组件
+ ------以上是初始化ApplicationEventMulticaster组件
+                                .onRefresh  供子类再容器刷新时做的其他操作
+                                .registerListeners  注册监听器
+                                         获取所有的ApplicationListener并将其添加到事件派发器中
+                                .finishBeanFactoryInitialization 主要是初始化所有的单实例bean
+                                         preInstantiateSingletons
+                                               获取容器中的所有bean 将单例懒加载非抽象的bean初始化
+                                               Map<String, Object> singletonObjects = new ConcurrentHashMap(256);所有的单列bean都从中获取
+                                               doGetBean  将创建的单列bean添加到singletonObjects
+                                .finishRefresh 完成beanFactory的初始化 Ioc创建完成
+                                         initLifecycleProcessor 初始化和生命周期有关的后置处理器
+                                         getLifecycleProcessor().onRefresh()  调用onRefresh
+                                         publishEvent 发布容器刷星完成事件
+
+
+
