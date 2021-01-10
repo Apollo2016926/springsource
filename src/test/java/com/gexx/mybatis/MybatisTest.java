@@ -1,5 +1,7 @@
 package com.gexx.mybatis;
 
+import com.gexx.mybatis.Mapper.EmployeeMapper;
+import com.gexx.mybatis.entity.Employee;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -40,7 +42,10 @@ public class MybatisTest {
     public void testMybatis() throws IOException {
         {
 
-            Employee employee = sqlSession.selectOne("com.gexx.mybatis.EmployeeMapper.selectEmployee", 1);
+//            Employee employee = sqlSession.selectOne("com.gexx.mybatis.EmployeeMapper.selectEmployee", 1);
+            EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
+            Employee employee = mapper.getEmployById(1);
+
             System.out.println(employee);
 
 

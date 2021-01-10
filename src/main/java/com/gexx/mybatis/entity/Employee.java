@@ -1,4 +1,4 @@
-package com.gexx.mybatis;
+package com.gexx.mybatis.entity;
 
 public class Employee {
     private Integer id;
