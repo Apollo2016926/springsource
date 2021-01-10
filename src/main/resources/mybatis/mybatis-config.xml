@@ -3,25 +3,34 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    <properties resource="db.properties"></properties>
+
     <settings>
         <!-- 打印sql日志 -->
-        <setting name="logImpl" value="STDOUT_LOGGING" />
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+        <!-- 开启驼峰命名-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
 
+    <typeAliases>
+<!--        <typeAlias alias="employee" type="com.gexx.mybatis.entity.Employee"/>-->
+        <package name="com/gexx/mybatis/entity" />
+    </typeAliases>
 
-    <environments default="development">
-        <environment id="development">
+    <environments default="dev">
+        <environment id="dev">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
-                <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/mybatis"/>
-                <property name="username" value="root"/>
-                <property name="password" value="1234"/>
+                <property name="driver" value="${db.driver}"/>
+                <property name="url" value="${db.url}"/>
+                <property name="username" value="${db.username}"/>
+                <property name="password" value="${db.password}"/>
             </dataSource>
         </environment>
     </environments>
     <mappers>
-        <mapper resource="mybatis/EmployeeMapper.xml"/>
+<!--        <mapper resource="mybatis/EmployeeMapper.xml"/>-->
+        <mapper class="com.gexx.mybatis.Mapper.EmployeeMapper"/>
     </mappers>
 
 </configuration>

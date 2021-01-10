@@ -4,6 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gexx.mybatis.Mapper.EmployeeMapper">
     <select id="getEmployById" resultType="com.gexx.mybatis.entity.Employee">
-        select id,last_name lastName,email,gender from gexx_employee where id = #{id}
+        select * from gexx_employee where id = #{id}
     </select>
 </mapper>
