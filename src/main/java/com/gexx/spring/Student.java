@@ -1,3 +1,5 @@
+package com.gexx.spring;
+
 public class Student {
 
     private String name;
@@ -21,7 +23,7 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student{" +
+        return "spring.Student{" +
                 "name='" + name + '\'' +
                 ", age=" + age +
                 '}';
