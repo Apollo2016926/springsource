@@ -4,6 +4,32 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gexx.mybatis.Mapper.EmployeeMapper">
     <select id="getEmployById" resultType="com.gexx.mybatis.entity.Employee">
-        select * from gexx_employee where id = #{id}
+        select *
+        from gexx_employee
+        where id = #{id}
     </select>
+
+
+    <insert id="addEmployee">
+        insert into gexx_employee(last_Name, email, gender)
+        values (#{lastName}, #{email}, #{gender})
+
+    </insert>
+
+    <update id="updateEmployee">
+        update gexx_employee
+        set last_Name=#{lastName},
+            email=#{email},
+            gender=#{gender}
+        where id =
+              #{id}
+    </update>
+
+    <delete id="delete">
+
+        delete
+        from gexx_employee
+        where id =
+              #{id}
+    </delete>
 </mapper>

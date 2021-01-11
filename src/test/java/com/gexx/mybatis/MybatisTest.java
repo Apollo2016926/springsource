@@ -40,15 +40,42 @@ public class MybatisTest {
 
     @Test
     public void testMybatis() throws IOException {
-        {
 
 //            Employee employee = sqlSession.selectOne("com.gexx.mybatis.EmployeeMapper.selectEmployee", 1);
-            EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
-            Employee employee = mapper.getEmployById(1);
+        EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
+        Employee employee = mapper.getEmployById(1);
+        System.out.println(employee);
+    }
 
-            System.out.println(employee);
+    @Test
+    public void testAdd() throws IOException {
 
+        EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
+        Employee employee = new Employee();
+        employee.setEmail("6566@22");
+        employee.setGender("1");
+        employee.setLastName("是是是");
+        mapper.addEmployee(employee);
+        sqlSession.commit();
+        System.out.println(employee);
+    }
 
-        }
+    @Test
+    public void testUpdate() throws IOException {
+
+        EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
+        Employee employee = new Employee();
+        employee.setId(8);
+        employee.setEmail("666666");
+        mapper.updateEmployee(employee);
+        sqlSession.commit();
+        System.out.println(employee);
+    }
+    @Test
+    public void testdelete() throws IOException {
+
+        EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
+        mapper.delete(9);
+//        sqlSession.commit();
     }
 }

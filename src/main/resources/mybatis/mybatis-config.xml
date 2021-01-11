@@ -29,8 +29,8 @@
         </environment>
     </environments>
     <mappers>
-<!--        <mapper resource="mybatis/EmployeeMapper.xml"/>-->
-        <mapper class="com.gexx.mybatis.Mapper.EmployeeMapper"/>
+        <mapper resource="mybatis/EmployeeMapper.xml"/>
+<!--        <mapper class="com.gexx.mybatis.Mapper.EmployeeMapper"/>-->
     </mappers>
 
 </configuration>
