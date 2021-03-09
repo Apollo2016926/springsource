@@ -12,12 +12,16 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MybatisTest {
     SqlSession sqlSession = null;
 
     @Before
-    public void init() throws IOException {
+    public void init() throws Exception {
         String resource = "mybatis/mybatis-config.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
@@ -71,11 +75,52 @@ public class MybatisTest {
         sqlSession.commit();
         System.out.println(employee);
     }
+
     @Test
     public void testdelete() throws IOException {
 
         EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
         mapper.delete(9);
 //        sqlSession.commit();
+    }
+
+    @Test
+    public void bio() throws Exception {
+
+        ExecutorService executorService = Executors.newCachedThreadPool();
+
+        ServerSocket serverSocket = new ServerSocket(5555);
+
+
+        while (true) {
+            Socket accept = serverSocket.accept();
+            System.out.println("发现客户端");
+
+            executorService.execute(new Runnable() {
+                @Override
+                public void run() {
+                    getString(accept);
+                }
+            });
+        }
+
+    }
+
+
+    public void getString(Socket socket) {
+        try {
+            System.out.println(Thread.currentThread().getName());
+            InputStream inputStream = socket.getInputStream();
+            byte[] bytes = new byte[1024];
+            while (true) {
+                System.out.println("111111");
+                inputStream.read(bytes);
+                System.out.println(new String(bytes));
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
