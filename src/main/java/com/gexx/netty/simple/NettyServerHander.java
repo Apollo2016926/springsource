@@ -1,6 +1,5 @@
 package com.gexx.netty.simple;
 
-import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -17,10 +16,24 @@ public class NettyServerHander extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 //        super.channelRead(ctx, msg);
-        System.out.println("server ctx :" + ctx);
-        ByteBuf buf = (ByteBuf) msg;
-        System.out.println(" 客户端消息:" + buf.toString(CharsetUtil.UTF_8));
-        System.out.println(" 客户端地址:" + ctx.channel().remoteAddress());
+//        System.out.println("server ctx :" + ctx);
+//        ByteBuf buf = (ByteBuf) msg;
+//        System.out.println(" 客户端消息:" + buf.toString(CharsetUtil.UTF_8));
+//        System.out.println(" 客户端地址:" + ctx.channel().remoteAddress());
+// 异步处理  自定义任务
+        ctx.channel().eventLoop().execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(10 * 1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ctx.writeAndFlush(Unpooled.copiedBuffer("hello,客户端 摸了会鱼", CharsetUtil.UTF_8));
+            }
+        });
+
+        System.out.println("服务端 继续。。");
     }
 
 
