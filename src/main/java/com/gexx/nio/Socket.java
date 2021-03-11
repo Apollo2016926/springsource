@@ -4,7 +4,7 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
-public class Sockt {
+public class Socket {
     public static void main(String[] args) throws Exception {
         SocketChannel socketChannel = SocketChannel.open();
         socketChannel.configureBlocking(false);
