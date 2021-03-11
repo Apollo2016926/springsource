@@ -14,7 +14,7 @@ public class NettyServer {
 
     public static void main(String[] args) throws InterruptedException {
         //1.创建两个线程组 bossGroup只是处理连接请求，真正的客户端业务处理，会交给workGroup
-        NioEventLoopGroup bossGroup = new NioEventLoopGroup();
+        EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workGroup = new NioEventLoopGroup();
         //创建服务端的启动对象配置参数
         try {
