@@ -23,6 +23,8 @@ public class Server {
             ChannelFuture cf = bootstrap.bind(7777).sync();
             //对关闭通道进行监听
             cf.channel().closeFuture().sync();
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
 
             bossGroup.shutdownGracefully();

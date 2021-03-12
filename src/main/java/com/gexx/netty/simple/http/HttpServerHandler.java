@@ -20,7 +20,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
         if (msg instanceof HttpRequest) {
             System.out.println("msg 类型" + msg.getClass());
 
-            ByteBuf buff = Unpooled.copiedBuffer("Hello 我是服务器", CharsetUtil.UTF_8);
+            ByteBuf buff = Unpooled.copiedBuffer("Hello 我是服务器", CharsetUtil.UTF_16);
 
             FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, buff);
             response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/plain");
@@ -30,4 +30,6 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
         }
 
     }
+
+
 }
