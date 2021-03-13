@@ -7,6 +7,8 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
 
+import java.net.URI;
+
 public class HttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
 
     /**
@@ -19,6 +21,13 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
 
         if (msg instanceof HttpRequest) {
             System.out.println("msg 类型" + msg.getClass());
+            HttpRequest httpRequest = (HttpRequest) msg;
+            //过滤资源
+            URI uri = new URI(httpRequest.uri());
+            if ("/favicon.ico".equals(uri.getPath())) {
+                System.out.println("favicon.ico ，无效");
+                return;
+            }
 
             ByteBuf buff = Unpooled.copiedBuffer("Hello 我是服务器", CharsetUtil.UTF_16);
 
